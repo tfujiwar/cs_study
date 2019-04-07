@@ -8,10 +8,11 @@ typedef struct {
 
 void printQueue(queue_t *queue)
 {
+	printf("[ ");
 	for (int i = 0; i < queue->count; i++) {
 		printf("%d ", queue->values[i]);
 	}
-	printf("\n");
+	printf("]\n");
 }
 
 void enqueue(queue_t *queue, int value)
@@ -19,7 +20,6 @@ void enqueue(queue_t *queue, int value)
 	if (queue->count < QUEUE_SIZE) {
 		queue->values[queue->count] = value;
 		queue->count++;
-		printQueue(queue);
 	}
 }
 
@@ -31,7 +31,6 @@ int dequeue(queue_t *queue)
 			queue->values[i] = queue->values[i + 1];
 		}
 		queue->count--;
-		printQueue(queue);
 		return value;
 	}
 }
@@ -41,17 +40,18 @@ int main()
 	queue_t queue;
 	queue.count = 0;
 
-	enqueue(&queue, 1);
-	enqueue(&queue, 2);
-	enqueue(&queue, 3);
-	enqueue(&queue, 4);
-	enqueue(&queue, 5);
+	for (int i = 0; i < 5; i++) {
+		enqueue(&queue, i);
+		printf("Value %d was added: ", i);
+		printQueue(&queue);
+	}
+	printf("\n");
 
-	dequeue(&queue);
-	dequeue(&queue);
-	dequeue(&queue);
-	dequeue(&queue);
-	dequeue(&queue);
+	for (int i = 0; i < 5; i++) {
+		printf("Value %d was removed: ", dequeue(&queue));
+		printQueue(&queue);
+	}
+	printf("\n");
 
 	return 0;
 }
